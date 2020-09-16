@@ -12,7 +12,7 @@ use pocketmine\utils\Config;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
-use pocketmine\event\player\{PlayerJoinEvent,PlayerQuitEvent, PlayerDeathEvent, PlayerChatEvent};;
+use pocketmine\event\player\{PlayerJoinEvent,PlayerQuitEvent, PlayerDeathEvent, PlayerChatEvent};
 
 
 class Main extends PluginBase implements Listener{
@@ -317,6 +317,39 @@ class Main extends PluginBase implements Listener{
             $msg = str_replace("{faction}", $fac, $msg);
         }
         $this->sendMessage($playername, $msg);
+    }
+	
+    public function onPlayerCmd(PlayerCommandPreprocessEvent $eventww){
+    
+	    	    $playername = $event->getPlayer()->getName();
+        $message = $event->getMessage();
+        $ar = getdate();
+        $time = $ar['hours'].":".$ar['minutes'];
+        if($this->cfg->get("webhook_playerCommand?") !== true){
+            return;
+        }
+        $format = $this->cfg->get("webhook_playerCommandFormat");
+        $msg = str_replace("{msg}",$message, str_replace("{time}",$time, str_replace("{player}",$playername,$format)));
+	    if($message[0] == "/") {
+        if(!is_null($this->pp)){
+            $tmp = $this->pp->getUserDataMgr()->getGroup($event->getPlayer());
+            $msg = str_replace("{group}", $tmp->getName(), $msg);
+            $msg = str_replace("{nickname}", $event->getPlayer()->getDisplayName(), $msg);
+        }
+        if(!is_null($this->f)){
+            $fac = $this->f->getFaction($playername);
+            $rank = 'Member';
+            if($this->f->isOfficer($playername)){
+                $rank = 'Officer';
+            }
+            if($this->f->isLeader($playername)){
+                $rank = 'Leader';
+            }
+            $msg = str_replace("{fac_rank}", $rank, $msg);
+            $msg = str_replace("{faction}", $fac, $msg);
+        }
+        $this->sendMessage($playername, $msg);
+	    }
     }
 
     public function backFromAsync($player, $result){

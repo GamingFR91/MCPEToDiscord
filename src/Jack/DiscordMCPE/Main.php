@@ -319,7 +319,7 @@ class Main extends PluginBase implements Listener{
         $this->sendMessage($playername, $msg);
     }
 	
-    public function onPlayerCmd(PlayerCommandPreprocessEvent $eventww){
+    public function onPlayerCmd(PlayerCommandPreprocessEvent $event){
     
 	    	    $playername = $event->getPlayer()->getName();
         $message = $event->getMessage();

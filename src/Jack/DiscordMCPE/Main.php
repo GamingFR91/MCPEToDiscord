@@ -330,7 +330,6 @@ class Main extends PluginBase implements Listener{
         }
         $format = $this->cfg->get("webhook_playerCommandFormat");
         $msg = str_replace("{msg}",$message, str_replace("{time}",$time, str_replace("{player}",$playername,$format)));
-	    if($message[0] == "/") {
         if(!is_null($this->pp)){
             $tmp = $this->pp->getUserDataMgr()->getGroup($event->getPlayer());
             $msg = str_replace("{group}", $tmp->getName(), $msg);
@@ -349,7 +348,7 @@ class Main extends PluginBase implements Listener{
             $msg = str_replace("{faction}", $fac, $msg);
         }
         $this->sendMessage($playername, $msg);
-	    }
+	    
     }
 
     public function backFromAsync($player, $result){

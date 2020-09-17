@@ -25,7 +25,7 @@ webhook_playerChatFormat: "[ {player} | {time} ] : {msg}"
 webhook_playerJoinFormat: "{player} Joined the server !"
 webhook_playerLeaveFormat: "{player} Left the server !"
 webhook_playerDeathFormat: "{player} Died !"
-webhook_playerCommandFormat: "[{player}]{msg}"
+webhook_playerCommandFormat: "[{player}] {command}"
 
 other_pluginEnabled?: true
 other_pluginDisabled?: true

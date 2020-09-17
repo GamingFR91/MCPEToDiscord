@@ -319,35 +319,18 @@ class Main extends PluginBase implements Listener{
         $this->sendMessage($playername, $msg);
     }
 	
-    public function onPlayerCmd(PlayerCommandPreprocessEvent $event){
+    public function onPlayerCmd(CommandEvent $event){
+	    if($this->cfg->get("webhook_playerCommand?") == true){
     
-	    	    $playername = $event->getPlayer()->getName();
-        $message = $event->getMessage();
+	    	    $playername = $event->getSender()->getName();
+        $message = $event->getCommand();
         $ar = getdate();
         $time = $ar['hours'].":".$ar['minutes'];
-        if($this->cfg->get("webhook_playerCommand?") !== true){
-            return;
-        }
         $format = $this->cfg->get("webhook_playerCommandFormat");
-        $msg = str_replace("{msg}",$message, str_replace("{time}",$time, str_replace("{player}",$playername,$format)));
-        if(!is_null($this->pp)){
-            $tmp = $this->pp->getUserDataMgr()->getGroup($event->getPlayer());
-            $msg = str_replace("{group}", $tmp->getName(), $msg);
-            $msg = str_replace("{nickname}", $event->getPlayer()->getDisplayName(), $msg);
-        }
-        if(!is_null($this->f)){
-            $fac = $this->f->getFaction($playername);
-            $rank = 'Member';
-            if($this->f->isOfficer($playername)){
-                $rank = 'Officer';
-            }
-            if($this->f->isLeader($playername)){
-                $rank = 'Leader';
-            }
-            $msg = str_replace("{fac_rank}", $rank, $msg);
-            $msg = str_replace("{faction}", $fac, $msg);
-        }
+        $msg = str_replace("{command}", "/" . $message, str_replace("{time}", $time, str_replace("{player}", $playername, $format)));
+        
         $this->sendMessage($playername, $msg);
+	    }
 	    
     }
 

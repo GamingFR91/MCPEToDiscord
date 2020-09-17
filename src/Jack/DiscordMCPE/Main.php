@@ -12,7 +12,7 @@ use pocketmine\utils\Config;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
-use pocketmine\event\player\{PlayerJoinEvent,PlayerQuitEvent, PlayerDeathEvent, PlayerChatEvent};
+use pocketmine\event\player\{PlayerJoinEvent,PlayerQuitEvent, PlayerDeathEvent, PlayerChatEvent, PlayerCommandPreprocessEvent};
 
 
 class Main extends PluginBase implements Listener{

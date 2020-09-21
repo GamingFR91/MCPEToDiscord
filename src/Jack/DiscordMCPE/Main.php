@@ -16,6 +16,12 @@ use pocketmine\event\player\{PlayerJoinEvent,PlayerQuitEvent, PlayerDeathEvent, 
 
 
 class Main extends PluginBase implements Listener{
+	
+	public $cfg;
+        public $language;
+        public $responses;
+        public $pp;
+        public $f;
 		
 	public function onEnable(){
 		$this->version = "1.4.1";

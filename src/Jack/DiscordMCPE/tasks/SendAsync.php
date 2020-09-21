@@ -8,6 +8,7 @@ namespace Jack\DiscordMCPE\tasks;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use Jack\DiscordMCPE\Main as Main;
 
 class SendAsync extends AsyncTask
 {

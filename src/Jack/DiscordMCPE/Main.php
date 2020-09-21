@@ -187,7 +187,7 @@ $sender->sendMessage(C::RED.$this->responses->get("no_language")."\n- English\n-
 $os = array('english', 'spanish', 'german', 'traditional_chinese', 'simplified_chinese', 'french', 'portuguese');
 
 if (in_array(strtolower($args[1]), $os) == false) {
-$sender->sendMessage(C::RED.$this->responses->get("invalid_language"))
+$sender->sendMessage(C::RED.$this->responses->get("invalid_language"));
 } 
 
 if($this->language == strtolower($args[1])){

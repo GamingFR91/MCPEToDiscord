@@ -23,6 +23,7 @@ class Main extends PluginBase implements Listener{
         public $pp;
         public $f;
 	public $version;
+	public $enabled;
 		
 	public function onEnable(){
 		$this->version = "1.4.1";

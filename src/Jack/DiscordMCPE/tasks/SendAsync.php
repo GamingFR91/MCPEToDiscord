@@ -41,7 +41,11 @@ class SendAsync extends AsyncTask
         }
 
         elseif (curl_getinfo($curl, CURLINFO_HTTP_CODE) != 204) {
-            $error = $responsejson['message'];
+            if(isset($responsejson['message'])) {
+                $error = $responsejson['message'];
+            } else {
+                $error = "No content returned";
+            }
         }
 
         elseif (curl_getinfo($curl, CURLINFO_HTTP_CODE) == 204 OR $response === ""){
@@ -50,7 +54,7 @@ class SendAsync extends AsyncTask
 
         $result = ["Response" => $response, "Error" => $error, "success" => $success];
 
-        $this->setResult($result, true);
+        $this->setResult($result);
     }
 
     public function onCompletion(Server $server)

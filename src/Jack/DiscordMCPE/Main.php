@@ -373,7 +373,7 @@ break;
      */
     // Heavy thanks to NiekertDev !
 
-    public function sendMessage(string $player = "nolog", string $msg){
+    public function sendMessage(CommandSender $player = "nolog", string $msg){
         if(!$this->enabled){
             return;
         }

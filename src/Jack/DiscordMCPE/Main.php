@@ -373,13 +373,13 @@ break;
      */
     // Heavy thanks to NiekertDev !
 
-    public function sendMessage(CommandSender $player = "nolog", string $msg){
+    public function sendMessage(CommandSender $player = "nolog", string $message){
         if(!$this->enabled){
             return;
         }
         $name = $this->cfg->get("webhook_name");
         $webhook = $this->cfg->get("webhook_url");
-		$cleanMsg = $this->cleanMessage($msg);
+		$cleanMsg = $this->cleanMessage($message);
         $curlopts = [
 	    	"content" => $cleanMsg,
             "username" => $name
@@ -396,6 +396,6 @@ break;
 	
 	public function cleanMessage(string $msg) : string{
 		$banned = $this->cfg->get("banned_list", []);
-		return str_replace($banned,'',$msg); 
+		return str_replace($banned,'',$message); 
 	}
 }

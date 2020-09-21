@@ -109,108 +109,108 @@ class Main extends PluginBase implements Listener{
      * @return bool
      */
     public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
-        if($cmd->getName() == "discord"){
-        if(!isset($args[0])){
-			//$sender->sendMessage(C::RED.$this->responses->get('invalid_command'));
-            return false;
-	    }
-	    switch($args[0]){
-			case 'version':
-			case 'ver':
-				if($this->cfg->get('debug')){
-					$this->getLogger()->info(C::GOLD."=== DETAILS ===");
-					$this->getLogger()->info(C::GREEN."Name     ".C::GOLD.":: ".C::AQUA."MCPEToDiscord");
-					$this->getLogger()->info(C::GREEN."Version  ".C::GOLD.":: ".C::AQUA.$this->version);
-					$this->getLogger()->info(C::GOLD.$this->responses->get('info_note'));
-					$sender->sendMessage(C::GOLD.$this->responses->get('debug_info_response'));
-					break;
-				} else {
-					$sender->sendMessage("Versoon - ".$this->version);
-					break;
-				}
-				break;
-			case 'on':
-		    case 'enable':
-				if($this->enabled){
+
+	    switch($command->getName()){
+
+case "discord":
+if($args[0] == null){	
+$sender->sendMessage(C::RED . $this->responses->get('invalid_command'));
+
+return false;	 
+
+}
+
+if($args[0] == "ver" || $args[0] == "version"){
+
+if($this->cfg->get('debug')){					$this->getLogger()->info(C::GOLD."=== DETAILS ===");
+$this->getLogger()->info(C::GREEN."Name ".C::GOLD.":: ".C::AQUA."MCPEToDiscord");
+$this->getLogger()->info(C::GREEN."Version ".C::GOLD.":: ".C::AQUA.$this->version);
+$this->getLogger()->info(C::GOLD.$this->responses->get('info_note'));
+$sender->sendMessage(C::GOLD.$this->responses->get('debug_info_response'));			
+
+}else{
+
+$sender->sendMessage("Version - ".$this->version);
+
+}
+}
+
+if($args[0] == "on" || $args[0] == "enable"){
+
+if($this->enabled){
 					$sender->sendMessage(C::RED.$this->responses->get('already_enabled'));
-					break;
-				}
+}else{
 				$this->enabled = true;
 				$this->cfg->set('discord', true);
 				$this->cfg->save(true);
 				$sender->sendMessage(C::GREEN.$this->responses->get('now_enabled'));
-				break;
-			case 'disable':
-			case 'off':
-				if(!$this->enabled){
-					$sender->sendMessage(C::RED.$this->responses->get('already_disabled'));
-					break;
-				}
-				$this->enabled = false;
-				$this->cfg->set('discord', false);
-				$this->cfg->save(true);
-				$sender->sendMessage(C::RED.$this->responses->get('now_disabled'));;
-				break;
-		    case 'send':
-                if(!$this->enabled) {
-                    $sender->sendMessage(C::RED.$this->responses->get("disabled"));
-                    break;
-                }
-                if(!isset($args[1])) {
-                    $sender->sendMessage(C::RED.$this->responses->get("args_missing"));
-                    break;
-                }
-                if(!$sender instanceof Player){
-                    $sender->sendMessage(C::RED.$this->responses->get("ingame"));
-                    break;
-                }else{
-                    $name = $sender->getName();
-                    if($this->enabled == false){ 
-                        $sender->sendMessage(C::RED.$this->responses->get("command_disabled"));
-                    break;
-                    } else {
-                    $this->sendMessage($name, "[".$sender->getNameTag()."] : ".str_replace($args[0]." ", "",implode(" ", $args)));
-                    $sender->sendMessage(C::AQUA.$this->responses->get("send_success"));
-                    }
-                }
-                break;
-		    case 'setlang':
-                if(!isset($args[1])){
-                    $sender->sendMessage(C::RED.$this->responses->get("no_language")."\n- English\n- Spanish\n- German\n- Simplified_Chinese\n- Traditional_Chinese\n- French\n- Portuguese");
-                    break;
-                } else {
-                    $os = array('english', 'spanish', 'german', 'traditional_chinese', 'simplified_chinese', 'french', 'portuguese');
-                        if (in_array(strtolower($args[1]), $os) == false) {
-                            $sender->sendMessage(C::RED.$this->responses->get("invalid_language"));
-                    break;
-                        }
-                    if($this->language == strtolower($args[1])){
-                    $sender->sendMessage(C::RED.$this->responses->get("language_already").$args[1]);
-                    break;
-                    }
-                    $this->language = strtolower($args[1]);
-                    $this->saveResource("lang/".$this->language.".yml");
-                    $this->responses = new Config($this->getDataFolder()."lang/".$this->language.".yml", Config::YAML, []);
-                    $this->cfg->set('language', strtolower($args[1]));
-                    $this->cfg->save(true);
-                    $sender->sendMessage(C::GREEN.$this->responses->get("success"));
-                    break;
-                }
-                break;
-                
-            case 'help':
-                $sender->sendMessage(C::GOLD."-- HELP --\n".C::AQUA."/discord send message\n".C::AQUA."/discord setlang\n".C::AQUA."/discord on/off\n".C::AQUA."/discord help\n/discord credits");
-                break;
+}
 
-            case 'credits':
-                $sender->sendMessage(C::GOLD.'— Credits —\n'.C::AQUA."NiekertDev (AsyncTasks)\n".C::GREEN."View his plugin on github");
-                break;
 
-            default:
-                $sender->sendMessage(C::RED.$this->responses->get("invalid_command"));
-                break;
-		}
-		return true;
+}
+
+if($args[0] == "off" || $args[0] == "disable"){
+if(!$this->enabled){
+$sender->sendMessage(C::RED.$this->responses->get('already_disabled'));
+}elseif($this->enabled){
+$this->enabled = false;$this->cfg->set('discord', false);
+$this->cfg->save(true);
+$sender->sendMessage(C::RED.$this->responses->get('now_disabled'));	
+}
+}
+
+if($args[0] == "send"){
+if(!$this->enabled) {
+$sender->sendMessage(C::RED.$this->responses->get("disabled"));
+}
+if(!isset($args[1])) {
+$sender->sendMessage(C::RED.$this->responses->get("args_missing"));
+}
+if(!$sender instanceof Player){
+$sender->sendMessage(C::RED.$this->responses->get("ingame"));
+}else{
+$name = $sender->getName();
+if($this->enabled == false){
+$sender->sendMessage(C::RED.$this->responses->get("command_disabled"));
+}else{
+$this->sendMessage($name, "[".$sender->getNameTag()."] : ".str_replace($args[0]." ", "",implode(" ", $args)));
+$sender->sendMessage(C::AQUA.$this->responses->get("send_success"));
+} 
+}
+}
+ if($args[0] == "setlang"){
+if(!isset($args[1])){
+$sender->sendMessage(C::RED.$this->responses->get("no_language")."\n- English\n- Spanish\n- German\n- Simplified_Chinese\n- Traditional_Chinese\n- French\n- Portuguese");
+
+}else{
+
+$os = array('english', 'spanish', 'german', 'traditional_chinese', 'simplified_chinese', 'french', 'portuguese');
+
+if (in_array(strtolower($args[1]), $os) == false) {
+$sender->sendMessage(C::RED.$this->responses->get("invalid_language"))
+} 
+
+if($this->language == strtolower($args[1])){
+$sender->sendMessage(C::RED.$this->responses->get("language_already").$args[1]);
+}
+$this->language = strtolower($args[1]);
+$this->saveResource("lang/".$this->language.".yml");
+$this->responses = new Config($this->getDataFolder()."lang/".$this->language.".yml", Config::YAML, []);
+$this->cfg->set('language', strtolower($args[1]));
+$this->cfg->save(true);
+$sender->sendMessage(C::GREEN.$this->responses->get("success"));
+}
+}
+
+if($args[0] == "help"){
+$sender->sendMessage(C::GOLD."-- HELP --\n".C::AQUA."/discord send message\n".C::AQUA."/discord setlang\n".C::AQUA."/discord on/off\n".C::AQUA."/discord help\n/discord credits");
+}
+
+break;
+
+}
+ 
+
         }
     }
     
